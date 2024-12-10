@@ -1,13 +1,14 @@
-import { useState } from 'react'
+import SupplierList from './components/pages/SupplierListPage';
+import UploadFileComp from './components/ui/UploadFileComp';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-     hello
+      hello
+      <SupplierList />
+      <UploadFileComp />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
