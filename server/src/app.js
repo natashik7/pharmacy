@@ -4,6 +4,7 @@ const express = require("express");
 const db = require("./models"); 
 const priceRouter = require('./routes/priceRouter');
 const supplierRouter = require("./routes/supplierRouter"); 
+const authRouter = require('./routes/authRouter');
 const { initializeSchedules } = require("./services/scheduleService"); 
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/price', priceRouter)
 app.use("/suppliers", supplierRouter);
+app.use('/api/auth', authRouter)
 
 
 db.sequelize
