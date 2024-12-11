@@ -16,6 +16,7 @@ app.use(express.json());
 app.use(morgan('dev')); 
 app.use(cookieParser()); 
 app.use(express.urlencoded({ extended: true })); 
+app.use(express.json());
 
 app.use('/api/price', priceRouter)
 app.use("/suppliers", supplierRouter);
