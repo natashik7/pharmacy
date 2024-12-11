@@ -1,5 +1,5 @@
 const schedule = require("node-schedule");
-const Supplier = require("../models/Supplier");
+const { Supplier } = require("../../db/models");
 const { fetchAndProcessFTP } = require("./ftpService");
 
 async function initializeSchedules() {

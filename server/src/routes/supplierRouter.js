@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { Supplier } = require('../models');
+const { Supplier } = require('../../db/models');
 const supplierRouter = Router();
 // Получить список всех поставщиков
 supplierRouter

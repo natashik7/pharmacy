@@ -1,7 +1,7 @@
 const cookieParser = require('cookie-parser'); 
 const morgan = require('morgan'); 
 const express = require("express");
-const db = require("./models"); 
+const db = require("../db/models"); 
 const priceRouter = require('./routes/priceRouter');
 const supplierRouter = require("./routes/supplierRouter"); 
 const authRouter = require('./routes/authRouter');
@@ -37,10 +37,12 @@ db.sequelize
     initializeSchedules();
 
     
-    app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`);
-    });
+    // app.listen(PORT, () => {
+    //   console.log(`Server is running on http://localhost:${PORT}`);
+    // });
   })
   .catch((err) => {
     console.error("Failed to connect to the database:", err);
   });
+
+  module.exports = app;

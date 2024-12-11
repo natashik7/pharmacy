@@ -1,6 +1,6 @@
 const fs = require('fs').promises;  
 const path = require('path');
-const Price = require("../models/Price");
+const Price = require("../../db/models/price");
 const ftp = require("basic-ftp");
 const AdmZip = require("adm-zip");
 
