@@ -20,11 +20,7 @@ const UploadFileComp: React.FC = () => {
     formData.append('file', file);
 
     try {
-      const response = await axios.post('api/prices/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const response = await axios.post('/api/prices/upload', formData);
 
       if (response.status === 200) {
         alert('File uploaded successfully.');
