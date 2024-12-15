@@ -6,7 +6,7 @@ const { uploadFileToFTP } = require('../utils/uploadFileToFTP');
 const storage = multer.memoryStorage(); // Используйте память для хранения файла
 const upload = multer({
   storage,
-  limits: { fileSize: 100 * 1024 * 1024 }, // Ограничение на размер файла (10 МБ)
+  limits: { fileSize: 1000 * 1024 * 1024 }, // Ограничение на размер файла (10 МБ)
 });
 
 priceRouter.post('/upload', upload.single('file'), async (req, res) => {
