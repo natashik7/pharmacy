@@ -1,4 +1,5 @@
 'use strict';
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -7,37 +8,40 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       counter_agent_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       price_date: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       full_name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       manufacturer: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+      },
+      expiration_date: {
+        type: Sequelize.DATE,
       },
       barcode: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       price: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Prices');
-  }
+  },
 };

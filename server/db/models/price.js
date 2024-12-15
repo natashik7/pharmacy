@@ -14,12 +14,15 @@ module.exports = (sequelize, DataTypes) => {
   }
   Price.init(
     {
-      supplier_id: DataTypes.INTEGER,
+
+      counter_agent_id: DataTypes.INTEGER,
       price_date: DataTypes.DATE,
-      product_name: DataTypes.STRING,
+      full_name: DataTypes.STRING,
       manufacturer: DataTypes.STRING,
+      expiration_date: DataTypes.DATE,
       barcode: DataTypes.STRING,
-      price: DataTypes.FLOAT,
+      price: DataTypes.DECIMAL,
+
     },
     {
       sequelize,

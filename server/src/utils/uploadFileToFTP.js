@@ -1,5 +1,6 @@
 const { Client } = require('basic-ftp');
 const { Readable } = require('stream'); // Импортируем Readable из stream
+require('dotenv').config();
 
 const uploadFileToFTP = async (file) => {
   const client = new Client();
@@ -7,9 +8,9 @@ const uploadFileToFTP = async (file) => {
     client.ftp.verbose = true; // Включите подробное логирование
 
     await client.access({
-      host: '178.20.42.235',
-      user: 'elf',
-      password: 'SMelfVSNiLnTD',
+      host: process.env.FTP_HOST,
+      user: process.env.FTP_USER,
+      password: process.env.FTP_PASSWORD,
       secure: false,
     });
 

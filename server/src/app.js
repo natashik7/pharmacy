@@ -5,10 +5,11 @@ const db = require("../db/models");
 const priceRouter = require('./routes/priceRouter');
 const supplierRouter = require("./routes/supplierRouter"); 
 const authRouter = require('./routes/authRouter');
-const { initializeSchedules } = require("./services/scheduleService"); 
+const fetchFilesFromFTP = require('./utils/fetchFileFromFTP');
+const cron = require('node-cron');
+
 
 const app = express();
-const PORT = 3000;
 
 
 app.use(express.json());
@@ -18,32 +19,26 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());
 
-app.use('/api/price', priceRouter)
-app.use("/suppliers", supplierRouter);
-app.use('/api/auth', authRouter)
 
 
-db.sequelize
-  .authenticate() 
-  .then(() => {
-    console.log("Database connection established successfully.");
+let isRunning = false;
 
-   
-    return db.sequelize.sync(); 
-  })
-  .then(() => {
-    console.log("Database synchronized.");
+cron.schedule('* * * * *', async () => {
+  if (isRunning) return; // Если уже выполняется, выходим
+  isRunning = true; // Устанавливаем флаг
 
- 
-    initializeSchedules();
+  try {
+    await fetchFilesFromFTP();
+  } catch (error) {
+    console.error('Ошибка в планировщике:', error);
+  } finally {
+    isRunning = false; // Сбрасываем флаг после завершения
+  }
+});
+// Настройка планировщика задач
 
-    
-    // app.listen(PORT, () => {
-    //   console.log(`Server is running on http://localhost:${PORT}`);
-    // });
-  })
-  .catch((err) => {
-    console.error("Failed to connect to the database:", err);
-  });
+app.use('/api/prices', priceRouter);
+app.use('/api/auth', authRouter);
+
 
   module.exports = app;
