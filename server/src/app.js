@@ -13,12 +13,13 @@ const app = express();
 
 
 app.use(express.json());
-
 app.use(morgan('dev')); 
 app.use(cookieParser()); 
 app.use(express.urlencoded({ extended: true })); 
 app.use(express.json());
 
+app.use('/api/prices', priceRouter);
+app.use('/api/auth', authRouter);
 
 
 let isRunning = false;
@@ -36,9 +37,5 @@ cron.schedule('* * * * *', async () => {
   }
 });
 // Настройка планировщика задач
-
-app.use('/api/prices', priceRouter);
-app.use('/api/auth', authRouter);
-
 
   module.exports = app;

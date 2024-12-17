@@ -1,56 +1,69 @@
-const authenticateToken = require('../middleware/jwt');
+const express = require('express');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { Router } = require('express');
-
 const { User } = require('../../db/models');
+const generateTokens = require('../utils/generateTokens');
+const cookiesConfig = require('../configs/cookieConfig');
 
-const authRouter = Router();
+const authRouter = express.Router();
 
-authRouter.route('/login').post(async (req, res) => {
-  const { username, password } = req.body;
+authRouter.post('/login', async (req, res) => {
   try {
-    const user = await User.findOne({ where: { username } });
-    if (!user || !(await bcrypt.compare(password, user.password))) {
-      return res.status(401).json({ message: 'Проверьте креды' });
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({ message: 'Username and password are required' });
     }
 
-    const token = jwt.sign(
-      { id: user.id, username: user.username },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: '1h',
-      },
-    );
-    res.cookie('token', token);
-    res.json({ message: 'Авторизация прошла успешно' });
+    const targetUser = await User.findOne({ where: { username } });
+    if (!targetUser) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    const isValid = await bcrypt.compare(password, targetUser.password);
+    if (!isValid) {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
+
+    const user = targetUser.get();
+    delete user.password;
+
+    const { accessToken, refreshToken } = generateTokens({ user });
+    res.cookie('refreshToken', refreshToken, cookiesConfig).json({ accessToken, user });
   } catch (error) {
-    res.status(500).json({ error: 'Ошибка авторизации', message: error.message });
+    console.error('Error during login:', error);
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
-authRouter.get('/check-auth', (req, res) => {
-  const token = req.headers.authorization?.split(' ')[1];
+// authRouter.post('/signup', async (req, res) => {
+//   try {
+//     const { username, password } = req.body;
+//     if (!username || !password) {
+//       return res.status(400).json({ message: 'username and password are required' });
+//     }
+//     if (password.length < 3)
+//       return res.status(400).json({ message: 'Password too short' });
 
-  if (!token) {
-    return res.status(401).json({ message: 'No token provided' });
-  }
+//     const hashpass = await bcrypt.hash(password, 10);
+//     const [newUser, created] = await User.findOrCreate({
+//       where: { username },
+//       defaults: { username, password: hashpass },
+//     });
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-    if (err) {
-      return res.status(403).json({ message: 'Invalid token' });
-    }
-    res.json({ username: decoded.username });
-  });
-});
+//     if (!created) return res.status(403).json({ message: 'User already exists' });
 
-authRouter.get('/protected', authenticateToken, (req, res) => {
-  res.json({ message: 'This is a protected route' });
-});
+//     const user = newUser.get();
+//     delete user.password;
 
-authRouter.route('/logout').post((req, res) => {
-  res.clearCookie('token');
-  res.json({ message: 'Вы вышли из системы' });
+//     const { accessToken, refreshToken } = generateTokens({ user });
+//     res.cookie('refreshToken', refreshToken, cookiesConfig).json({ accessToken, user });
+//   } catch (error) {
+//     console.error('Error during signup:', error);
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// });
+
+authRouter.get('/logout', (req, res) => {
+  res.clearCookie('refreshToken').sendStatus(200);
 });
 
 module.exports = authRouter;
