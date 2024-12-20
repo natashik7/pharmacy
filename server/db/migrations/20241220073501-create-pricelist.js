@@ -9,10 +9,6 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
       },
-      counterAgentId: {
-        type: Sequelize.UUID,          
-        allowNull: false,
-      },
       priceDate: {
         type: Sequelize.DATEONLY,
         allowNull: false,

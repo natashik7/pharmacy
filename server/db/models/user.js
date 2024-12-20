@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId', 
         otherKey: 'rightId',  
         as: 'rights', 
+        onDelete: 'CASCADE', 
       });
     }
   }
@@ -29,10 +30,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
       },
       fullname: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      rights: {
         type: DataTypes.STRING,
         allowNull: true,
       },

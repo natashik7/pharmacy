@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'rightId', 
         otherKey: 'userId', 
         as: 'users', 
+        onDelete: 'CASCADE', 
       });
     }
     }

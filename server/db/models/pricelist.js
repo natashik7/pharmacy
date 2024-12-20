@@ -17,10 +17,6 @@ module.exports = (sequelize) => {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      counterAgentId: {
-        type: DataTypes.UUID,
-        allowNull: false,
-      },
       priceDate: {
         type: DataTypes.DATEONLY,
         allowNull: false,
