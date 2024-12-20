@@ -1,11 +1,8 @@
-const { logger } = require('../utils/logger');
+const { logger } = require('./logger');
 
 class DbfDataMapper {
   static mapDbfToPrice(record) {
     try {
-      // Проверяем наличие обязательных полей
-      this.validateRecord(record);
-
       return {
         full_name: this.sanitizeString(this.getFieldValue(record, ['NAME', 'PRODUCT', 'Product', 'PRO_NAME'])),
         manufacturer: this.sanitizeString(this.getFieldValue(record, ['FIRM', 'MANUFACTURER', 'Manufacturer', 'PRODUCER'])),
@@ -63,17 +60,6 @@ class DbfDataMapper {
     }
   }
 
-  // Вспомогательный метод для проверки обязательных полей
-  static validateRecord(record) {
-    const requiredFields = ['NAME', 'PRICE', 'PRODUCT']; // Добавьте другие обязательные поля
-    const missingFields = requiredFields.filter((field) => !this.getFieldValue(record, [field]));
-
-    if (missingFields.length > 0) {
-      throw new Error(`Отсутствуют обязательные поля: ${missingFields.join(', ')}`);
-    }
-
-    return true;
-  }
 }
 
 module.exports = { DbfDataMapper };

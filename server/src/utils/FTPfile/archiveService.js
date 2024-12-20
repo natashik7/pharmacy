@@ -4,7 +4,7 @@ const util = require('util');
 const execPromise = util.promisify(exec);
 const fs = require('fs');
 const path = require('path');
-const { PriceService } = require('../services/PriceService');
+const { PriceService } = require('../../services/PriceService');
 const { logger } = require('./logger');
 const XLSX = require('xlsx');
 

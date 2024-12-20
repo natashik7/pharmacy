@@ -5,12 +5,9 @@ const db = require("../db/models");
 const priceRouter = require('./routes/priceRouter');
 const supplierRouter = require("./routes/supplierRouter"); 
 const authRouter = require('./routes/authRouter');
-const fetchFilesFromFTP = require('./utils/fetchFileFromFTP');
-const cron = require('node-cron');
-
+require('./helpers/scheduler'); // Импортируем планировщик
 
 const app = express();
-
 
 app.use(express.json());
 app.use(morgan('dev')); 
@@ -21,21 +18,5 @@ app.use(express.json());
 app.use('/api/prices', priceRouter);
 app.use('/api/auth', authRouter);
 
+module.exports = app;
 
-let isRunning = false;
-
-cron.schedule('* * * * *', async () => {
-  if (isRunning) return; // Если уже выполняется, выходим
-  isRunning = true; // Устанавливаем флаг
-
-  try {
-    await fetchFilesFromFTP();
-  } catch (error) {
-    console.error('Ошибка в планировщике:', error);
-  } finally {
-    isRunning = false; // Сбрасываем флаг после завершения
-  }
-});
-// Настройка планировщика задач
-
-  module.exports = app;
