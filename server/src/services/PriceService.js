@@ -1,5 +1,5 @@
 const { Price } = require('../../db/models');
-const { logger } = require('../utils/logger');
+const { logger } = require('../utils/FTPfile/logger.js');
 
 class PriceService {
   static async bulkCreateFromRecords(records, fileName, counterAgentId) {
