@@ -14,12 +14,25 @@ module.exports = (sequelize, DataTypes) => {
   }
   UserRight.init(
     {
-      userId: DataTypes.INTEGER,
-      rightId: DataTypes.INTEGER,
+      id: {
+        type: DataTypes.UUID, 
+        defaultValue: DataTypes.UUIDV4, 
+        primaryKey: true, 
+      },
+      userId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
+      rightId: {
+        type: DataTypes.UUID,
+        allowNull: false,
+      },
     },
     {
       sequelize,
       modelName: 'UserRight',
+      tableName: 'UserRights',
+      timestamps: true,
     },
   );
   return UserRight;

@@ -4,9 +4,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/server.js",
     "db:reset": "npx sequelize-cli db:drop && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "db:setup": "&& NODE_ENV=production npx sequelize db:create && NODE_ENV=production npx sequelize db:migrate && NODE_ENV=production npx sequelize db:seed:all",
+    "start": "NODE_ENV=production node src/server.js"
   },
   "keywords": [],
   "author": "",
@@ -39,9 +40,9 @@
     "sequelize": "^6.37.5",
     "sharp": "^0.33.5",
     "unrar": "^0.2.0",
+    "uuid": "^11.0.3",
     "winston": "^3.17.0",
     "xlsx": "^0.18.5"
-    "sharp": "^0.33.5"
   },
   "description": ""
 }

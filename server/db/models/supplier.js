@@ -14,21 +14,64 @@ module.exports = (sequelize, DataTypes) => {
   }
   Supplier.init(
     {
-      short_name: DataTypes.STRING,
-      full_name: DataTypes.STRING,
-      region: DataTypes.STRING,
-      address: DataTypes.STRING,
-      phone: DataTypes.STRING,
-      email: DataTypes.STRING,
-      ftp_host: DataTypes.STRING,
-      ftp_user: DataTypes.STRING,
-      ftp_password: DataTypes.STRING,
-      ftp_path: DataTypes.STRING,
-      schedule: DataTypes.STRING,
+      id: {
+        type: DataTypes.UUID, 
+        defaultValue: DataTypes.UUIDV4, 
+        primaryKey: true, 
+      },
+      short_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      full_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      region: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      phone: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      email: {
+        type: DataTypes.STRING,
+        validate: {
+          isEmail: true, // Валидация email
+        },
+        allowNull: true,
+      },
+      ftp_host: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      ftp_user: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      ftp_password: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      ftp_path: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      schedule: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       sequelize,
       modelName: 'Supplier',
+      tableName: 'Suppliers', 
+      timestamps: true, // Включаем поля createdAt и updatedAt
     },
   );
   return Supplier;
