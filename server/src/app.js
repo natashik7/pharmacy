@@ -19,3 +19,4 @@ app.use('/api/prices', priceRouter);
 app.use('/api/auth', authRouter);
 
 module.exports = app;
+

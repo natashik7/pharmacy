@@ -1,16 +1,14 @@
-import { createRoot } from 'react-dom/client';
 import React from 'react';
-import store from './store';
+import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import App from './App';
+import { injectStore } from './services/axiosInstance';
+import store from './store';
 
-const container = document.getElementById('root');
-if (container) {
-  createRoot(container).render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-  );
-} else {
-  console.error('Root element not found');
-}
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+);
+
+injectStore(store);
